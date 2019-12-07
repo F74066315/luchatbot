@@ -14,21 +14,89 @@ load_dotenv()
 
 
 machine = TocMachine(
-    states=["user", "state1", "state2"],
+    states=["user", "hungry", "yule", "xuyue", "huoli", "queue", "win", "buffet", "hanlai", "xiangshi", "defeat"],
     transitions=[
         {
             "trigger": "advance",
             "source": "user",
-            "dest": "state1",
-            "conditions": "is_going_to_state1",
+            "dest": "hungry",
+            "conditions": "is_going_to_hungry",
         },
         {
             "trigger": "advance",
-            "source": "user",
-            "dest": "state2",
-            "conditions": "is_going_to_state2",
+            "source": "hungry",
+            "dest": "yule",
+            "conditions": "is_going_to_yule",
         },
-        {"trigger": "go_back", "source": ["state1", "state2"], "dest": "user"},
+        {
+            "trigger": "advance",
+            "source": "yule",
+            "dest": "xuyue",
+            "conditions": "is_going_to_xuyue",
+        },
+        {
+            "trigger": "advance",
+            "source": "xuyue",
+            "dest": "win",
+            "conditions": "is_going_to_win",
+        },
+        {
+            "trigger": "advance",
+            "source": "yule",
+            "dest": "huoli",
+            "conditions": "is_going_to_huoli",
+        },
+        {
+            "trigger": "advance",
+            "source": "huoli",
+            "dest": "xuyue",
+            "conditions": "is_going_to_xuyue",
+        },
+        {
+            "trigger": "advance",
+            "source": "huoli",
+            "dest": "queue",
+            "conditions": "is_going_to_queue",
+        },
+        {
+            "trigger": "advance",
+            "source": "queue",
+            "dest": "defeat",
+            "conditions": "is_going_to_defeat",
+        },
+        {
+            "trigger": "advance",
+            "source": "hungry",
+            "dest": "buffet",
+            "conditions": "is_going_to_buffet",
+        },
+        {
+            "trigger": "advance",
+            "source": "buffet",
+            "dest": "xiangshi",
+            "conditions": "is_going_to_xiangshi",
+        },
+        {
+            "trigger": "advance",
+            "source": "buffet",
+            "dest": "hanlai",
+            "conditions": "is_going_to_hanlai",
+        },
+        {
+            "trigger": "advance",
+            "source": "xiangshi",
+            "dest": "defeat",
+            "conditions": "is_going_to_defeat",
+        },
+        {
+            "trigger": "advance",
+            "source": "hanlai",
+            "dest": "defeat",
+            "conditions": "is_going_to_defeat",
+        },
+        {"trigger": "go_back", "source": ["hungry", "yule", "xuyue", "huoli", "queue", "win", "buffet","hanlai","xiangshi","defeat"], "dest": "user"},
+        #{"trigger": "advance", "source": ["hungry", "yule", "buffet","hanlai","xiangshi","defeat"], "dest": "user", "conditions": "is_going_to_user"},
+
     ],
     initial="user",
     auto_transitions=False,
@@ -103,8 +171,8 @@ def webhook_handler():
         print(f"\nFSM STATE: {machine.state}")
         print(f"REQUEST BODY: \n{body}")
         response = machine.advance(event)
-        if response == False:
-            send_text_message(event.reply_token, "Not Entering any State")
+        # if response == False:
+        #     send_text_message(event.reply_token, "Not Entering any State")
 
     return "OK"
 
