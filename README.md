@@ -118,9 +118,9 @@ sudo snap install --classic heroku
 
 	heroku git:remote -a {HEROKU_APP_NAME}
 
-2. Upload project
-
+2. Upload project																		更新heroku
 	```
+
 	git add .
 	git commit -m "Add code"
 	git push -f heroku master
@@ -141,7 +141,7 @@ sudo snap install --classic heroku
 
 5. If fail with `pygraphviz` install errors
 
-	run commands below can solve the problems
+	run commands below can solve the problems  											pygraphviz 解決辦法
 	```
 	heroku buildpacks:set heroku/python
 	heroku buildpacks:add --index 1 heroku-community/apt
