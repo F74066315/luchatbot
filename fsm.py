@@ -125,5 +125,18 @@ class TocMachine(GraphMachine):
         
         send_button_message(reply_token,'https://i.imgur.com/2YLUX87.png',"時光倒流","你拿起街邊的破碗，本來準備要就地行乞，突然眼前出現了月光寶盒...","從頭開始")
         self.go_back()
+
+    
+    def is_going_to_interrupt(self, event):
+        text = event.message.text
+        return text.lower() == "誰"
+
+    def on_enter_interrupt(self, event):
+        print("I'm entering interrupt")
+
+        reply_token = event.reply_token
+        
+        send_button_message(reply_token,'https://i.imgur.com/M0R5FCw.png',"風雲變色","一道閃電砸下，讓眼前的一切都灰飛煙滅，一切回到從前...","從頭開始")
+        self.go_back()
    
         

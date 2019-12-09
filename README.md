@@ -1,13 +1,22 @@
-# 小海豹模擬器
+# TOC Project 2020
 
-你是一隻無所事事的小海豹，整天過著悠哉悠哉的生活，但是你沒有發現的是，隱藏在平靜生活下的一場巨大危機，正悄悄的向你靠近...
+[![Maintainability](https://api.codeclimate.com/v1/badges/dc7fa47fcd809b99d087/maintainability)](https://codeclimate.com/github/NCKU-CCS/TOC-Project-2020/maintainability)
+
+[![Known Vulnerabilities](https://snyk.io/test/github/NCKU-CCS/TOC-Project-2020/badge.svg)](https://snyk.io/test/github/NCKU-CCS/TOC-Project-2020)
+
+
+Template Code for TOC Project 2020
+
+A Line bot based on a finite state machine
+
+More details in the [Slides](https://hackmd.io/@TTW/ToC-2019-Project#) and [FAQ](https://hackmd.io/s/B1Xw7E8kN)
 
 ## Setup
 
 ### Prerequisite
 * Python 3.6
 * Pipenv
-* Line Page and App
+* Facebook Page and App
 * HTTPS Server
 
 #### Install Dependency
@@ -70,87 +79,81 @@ The initial state is set to `user`.
 Every time `user` state is triggered to `advance` to another state, it will `go_back` to `user` state after the bot replies corresponding message.
 
 * user
-	* Input: "從頭開始"
-		* State: "hungry"
-		* Reply: "緊急特豹"
-		* Reply: "你是一隻小海豹，月底，飢腸轆轆的你不得不去覓食，但此時你只有65元..."
-		* Reply: 兩個按鈕 1.育樂街將就一下吧 2.高級自助餐!!!
-		
-			* Input: "育樂街將就一下吧"
-				* State: "yule"
-				* Reply: "性命攸關"
-				* Reply: "此刻一個關係到你未來的抉擇擺在你面前----吃啥..."
-				* Reply: 兩個按鈕 1.我大煦悅 2.活力小廚
-				
-					* Input: "我大煦悅"
-						* State: "xuyue"
-						* Reply: "尊榮獨享"
-						* Reply: "經過重重難關，你終於成功了--煦悅的美味焢肉飯，還有喝不完的綠豆湯..."
-						* Reply: 一個按鈕 1. "暴飲暴食"	
-						
-							* Input: "暴飲暴食"
-								* State: "win"
-								* Reply: "功成身退"
-								* Reply: "酒足飯飽過後，你充實而欣慰，有錢人的快樂，就是這麼樸實無華，且枯燥..."
-								* Reply: 一個按鈕 1. "從頭開始"	(回到user state)
-								
-					* Input: "活力小廚"
-						* State: "huoli"
-						* Reply: "生死交關"
-						* Reply: "此時，一件意想不到的事發生了，大概有八百人在排隊!!!此時你應該..."
-						* Reply: 兩個按鈕 1.我大煦悅(advance to xuyue state) 2.堅持到底
-						
-							* Input: "堅持到底"
-								* State: "queue"
-								* Reply: "白駒過隙"
-								* Reply: "\"我可以慢慢等...\"但是人實在太多了，直到關門你都沒能買到便當..."
-								* Reply: 一個按鈕 1. "一敗塗地"	
-										
-									
-									* Input: "一敗塗地"
-										* State: "defeat"
-										* Reply: "時光倒流"
-										* Reply: "你拿起街邊的破碗，本來準備要就地行乞，突然眼前出現了月光寶盒..."
-										* Reply: 一個按鈕 1. "從頭開始"	 (回到user state)
-						
-			* Input: "高級自助餐!!!"
-				* State: "buffet"
-				* Reply: "世紀難題"
-				* Reply: "以本公子的身分，當然是吃高級Buffet了，不過今天要吃哪一間呢..."
-				* Reply: 兩個按鈕 1.饗食天堂 2.漢來海港
+	* Input: "go to state1"
+		* Reply: "I'm entering state1"
 
-					* Input: "饗食天堂"
-						* State: "xiangshi"
-						* Reply: "身無長物"
-						* Reply: "就說你只有65塊了..."
-						* Reply: 一個按鈕 1. "一敗塗地"	(advance to defeat state)
+	* Input: "go to state2"
+		* Reply: "I'm entering state2"
 
-					* Input: "漢來海港"
-						* State: "hanlai"
-						* Reply: "身無長物"
-						* Reply: "就說你只有65塊了..."
-						* Reply: 一個按鈕 1. "一敗塗地"	(advance to defeat state)
-					(雖然這兩個state的Reply都一樣 但是其實是兩個不同state喔❤️❤️❤️)
+## Deploy
+Setting to deploy webhooks on Heroku.
 
+### Heroku CLI installation
 
+* [macOS, Windows](https://devcenter.heroku.com/articles/heroku-cli)
 
+or you can use Homebrew (MAC)
+```sh
+brew tap heroku/brew && brew install heroku
+```
 
+or you can use Snap (Ubuntu 16+)
+```sh
+sudo snap install --classic heroku
+```
 
+### Connect to Heroku
 
+1. Register Heroku: https://signup.heroku.com
 
+2. Create Heroku project from website
 
+3. CLI Login
 
+	`heroku login`
 
+### Upload project to Heroku
 
+1. Add local project to Heroku project
 
+	heroku git:remote -a {HEROKU_APP_NAME}
 
+2. Upload project																		更新heroku
+	```
 
+	git add .
+	git commit -m "Add code"
+	git push -f heroku master
+	```
 
+3. Set Environment - Line Messaging API Secret Keys
 
+	```
+	heroku config:set LINE_CHANNEL_SECRET=your_line_channel_secret
+	heroku config:set LINE_CHANNEL_ACCESS_TOKEN=your_line_channel_access_token
+	```
 
+4. Your Project is now running on Heroku!
 
+	url: `{HEROKU_APP_NAME}.herokuapp.com/callback`
 
+	debug command: `heroku logs --tail --app {HEROKU_APP_NAME}`
 
+5. If fail with `pygraphviz` install errors
 
+	run commands below can solve the problems  											pygraphviz 解決辦法
+	```
+	heroku buildpacks:set heroku/python
+	heroku buildpacks:add --index 1 heroku-community/apt
+	```
 
+	refference: https://hackmd.io/@ccw/B1Xw7E8kN?type=view#Q2-如何在-Heroku-使用-pygraphviz
 
+## Reference
+[Pipenv](https://medium.com/@chihsuan/pipenv-更簡單-更快速的-python-套件管理工具-135a47e504f4) ❤️ [@chihsuan](https://github.com/chihsuan)
+
+[TOC-Project-2019](https://github.com/winonecheng/TOC-Project-2019) ❤️ [@winonecheng](https://github.com/winonecheng)
+
+Flask Architecture ❤️ [@Sirius207](https://github.com/Sirius207)
+
+[Line line-bot-sdk-python](https://github.com/line/line-bot-sdk-python/tree/master/examples/flask-echo)

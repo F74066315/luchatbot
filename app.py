@@ -14,7 +14,7 @@ load_dotenv()
 
 
 machine = TocMachine(
-    states=["user", "hungry", "yule", "xuyue", "huoli", "queue", "win", "buffet", "hanlai", "xiangshi", "defeat"],
+    states=["user", "hungry", "yule", "xuyue", "huoli", "queue", "win", "buffet", "hanlai", "xiangshi", "defeat","interrupt"],
     transitions=[
         {
             "trigger": "advance",
@@ -94,7 +94,8 @@ machine = TocMachine(
             "dest": "defeat",
             "conditions": "is_going_to_defeat",
         },
-        {"trigger": "go_back", "source": ["hungry", "yule", "xuyue", "huoli", "queue", "win", "buffet","hanlai","xiangshi","defeat"], "dest": "user"},
+        {"trigger": "advance", "source": ["hungry", "yule", "xuyue", "huoli", "queue", "win", "buffet","hanlai","xiangshi","defeat"], "dest": "interrupt","conditions": "is_going_to_interrupt",},
+        {"trigger": "go_back", "source": ["hungry", "yule", "xuyue", "huoli", "queue", "win", "buffet","hanlai","xiangshi","defeat","interrupt"], "dest": "user"},
         #{"trigger": "advance", "source": ["hungry", "yule", "buffet","hanlai","xiangshi","defeat"], "dest": "user", "conditions": "is_going_to_user"},
 
     ],
@@ -172,7 +173,7 @@ def webhook_handler():
         print(f"REQUEST BODY: \n{body}")
         response = machine.advance(event)
         # if response == False:
-        #     send_text_message(event.reply_token, "Not Entering any State")
+        #     send_text_message(event.reply_token, "這樣好像沒有用ㄟQQ 要不要試著點擊按鈕或者輸入help以獲得幫助呢?")
 
     return "OK"
 
