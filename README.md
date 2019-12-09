@@ -133,6 +133,13 @@ Every time `user` state is triggered to `advance` to another state, it will `go_
 					(雖然這兩個state的Reply都一樣 但是其實是兩個不同state喔❤️❤️❤️)
 
 
+	* Input: "誰"
+		* State: "interrupt"
+		* Reply: "風雲變色"
+		* Reply: "一道閃電砸下，讓眼前的一切都灰飛煙滅，一切回到從前..."
+		* Reply: 一個按鈕 1.從頭開始(回到user state)
+		(此state用於離開當前環節 重新開始)
+
 
 
 
